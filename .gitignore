@@ -1,0 +1,5 @@
+node-modules/
+typings/
+
+*.js
+*.js.map
