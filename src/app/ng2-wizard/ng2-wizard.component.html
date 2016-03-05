@@ -3,4 +3,8 @@
     <a href="#">{{ tab.title }}</a>
   </li>
 </ul>
-<ng-content></ng-content>
+<div>
+    <ng-content></ng-content>
+    <button class="btn pull-left" (click)="onButtonClick(NavigationDirection.PREVIOUS)">Previous</button>
+    <button class="btn pull-right"(click)="onButtonClick(NavigationDirection.NEXT)">Next</button>
+</div>
