@@ -1,17 +1,30 @@
-import { Component, ContentChildren, QueryList, AfterContentInit } from 'angular2/core';
+import { Component, ContentChildren, Input, QueryList, AfterContentInit } from 'angular2/core';
 import { Ng2WizardTab } from './ng2-wizard-tab.component';
-
+import { Ng2WizardStep } from './ng2-wizard-step.component';
+import { INg2WizardConfig } from './ng2-wizard.config';
+ 
 @Component({
     selector: 'ng2-wizard',
     templateUrl: './app/ng2-wizard/ng2-wizard.component.html'
 })
 export class Ng2Wizard implements AfterContentInit {
     
-    // Allow usage of enum in template
-    private NavigationDirection = NavigationDirection;
+    @Input()
+    private config: INg2WizardConfig;
     
     @ContentChildren(Ng2WizardTab)
     private tabs: QueryList<Ng2WizardTab>;
+    
+    // private get steps(): Array<Ng2WizardStep> {
+    //     let steps: Array<Ng2WizardStep> = new Array<Ng2WizardStep>();
+    //     
+    //     this.tabs.forEach(tab => steps.concat(tab.steps.toArray()));
+    //     
+    //     return steps;
+    // }
+    
+    // Allow usage of enum in template
+    private NavigationDirection = NavigationDirection;
     
     private get activeTab(): Ng2WizardTab {
         return this.tabs.toArray().find(tab => tab.active);
@@ -28,6 +41,8 @@ export class Ng2Wizard implements AfterContentInit {
     private get hasPreviousStep(): boolean {
         return this.currentStepIndex > 0;
     }
+    
+    constructor() { }
     
     public ngAfterContentInit(): void {
         this.tabs.first.active = true;
