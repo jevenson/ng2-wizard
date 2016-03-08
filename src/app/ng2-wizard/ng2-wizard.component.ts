@@ -1,4 +1,4 @@
-import { Component, ContentChildren, Input, Output, EventEmitter, QueryList, AfterContentInit } from 'angular2/core';
+import { Component, ContentChildren, Input, Output, EventEmitter, QueryList, OnInit, AfterContentInit } from 'angular2/core';
 import { Ng2WizardTab } from './ng2-wizard-tab.component';
 import { Ng2WizardStep } from './ng2-wizard-step.component';
 import { INg2WizardConfig } from './ng2-wizard.config';
@@ -7,10 +7,19 @@ import { INg2WizardConfig } from './ng2-wizard.config';
     selector: 'ng2-wizard',
     templateUrl: './app/ng2-wizard/ng2-wizard.component.html'
 })
-export class Ng2Wizard implements AfterContentInit {
+export class Ng2Wizard implements OnInit, AfterContentInit {
     
+    // represents the user's config values
     @Input()
     private config: INg2WizardConfig;
+    
+    private defaultConfig: INg2WizardConfig = {
+        "showNavigationButtons": true,
+        "navigationButtonLocation": "bottom",
+        "preventUnvisitedTabNavigation": false
+    };
+    
+    private combinedConfig: INg2WizardConfig = this.defaultConfig;
     
     @Output()
     private onNext: EventEmitter<any> = new EventEmitter<any>();
@@ -57,7 +66,24 @@ export class Ng2Wizard implements AfterContentInit {
         return this.currentStepIndex > 0;
     }
     
+    /* Configuration Properties */
+    
+    private get showTopNavigationButtons(): boolean {
+        return this.combinedConfig.showNavigationButtons &&
+            (this.combinedConfig.navigationButtonLocation === "top" || this.combinedConfig.navigationButtonLocation === "both");
+    }
+    
+    private get showBottomNavigationButtons(): boolean {
+        return this.combinedConfig.showNavigationButtons &&
+            (this.combinedConfig.navigationButtonLocation === "bottom" || this.combinedConfig.navigationButtonLocation === "both");
+    }
+    
     constructor() { }
+    
+    public ngOnInit(): void {
+        this.verifyConfig();
+        this.combineConfig();
+    }
     
     public ngAfterContentInit(): void {
         this.tabs.first.active = true;
@@ -130,6 +156,22 @@ export class Ng2Wizard implements AfterContentInit {
         this.steps.forEach((step) => {
             step.active =  false
         });
+    }
+    
+    // check configuration rules and warn user when they have conficting config values
+    private verifyConfig(): void {
+        if (this.combinedConfig.navigationButtonLocation && !this.combinedConfig.showNavigationButtons) {
+            console.warn('ng2-wizard: config value "navigationButtonLocation" ignored because "showNavigationButtons" is false.');
+        }
+    }
+    
+    // loop through all configuation settings in user input config and over write the defaults
+    private combineConfig(): void {
+        for (var key in this.config) {
+            if (this.config.hasOwnProperty(key)) {
+                this.combinedConfig[key] = this.config[key];
+            }
+        }
     }
 }
 

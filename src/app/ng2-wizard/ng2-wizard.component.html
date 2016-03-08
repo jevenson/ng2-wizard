@@ -4,7 +4,13 @@
   </li>
 </ul>
 <div>
-    <ng-content></ng-content>
-    <button class="btn pull-left" (click)="onButtonClick(NavigationDirection.PREVIOUS)">Previous</button>
-    <button class="btn pull-right"(click)="onButtonClick(NavigationDirection.NEXT)">Next</button>
+  <div *ngIf="showTopNavigationButtons" class="button-container">
+    <button *ngIf="hasPreviousStep" class="btn pull-left" (click)="onButtonClick(NavigationDirection.PREVIOUS)">Previous</button>
+    <button *ngIf="hasNextStep" class="btn pull-right" (click)="onButtonClick(NavigationDirection.NEXT)">Next</button>
+  </div>
+  <ng-content></ng-content>
+  <div *ngIf="showBottomNavigationButtons" class="button-container">
+    <button *ngIf="hasPreviousStep" class="btn pull-left" (click)="onButtonClick(NavigationDirection.PREVIOUS)">Previous</button>
+    <button *ngIf="hasNextStep" class="btn pull-right" (click)="onButtonClick(NavigationDirection.NEXT)">Next</button>
+  </div>
 </div>

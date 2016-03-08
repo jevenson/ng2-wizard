@@ -2,6 +2,7 @@ import { Component } from 'angular2/core';
 import { Ng2Wizard } from './ng2-wizard/ng2-wizard.component';
 import { Ng2WizardTab } from './ng2-wizard/ng2-wizard-tab.component';
 import { Ng2WizardStep } from './ng2-wizard/ng2-wizard-step.component';
+import { INg2WizardConfig } from './ng2-wizard/ng2-wizard.config';
 
 @Component({
     selector: 'app',
@@ -10,15 +11,21 @@ import { Ng2WizardStep } from './ng2-wizard/ng2-wizard-step.component';
 })
 export class AppComponent {
     
-    onNext(): void {
+    public wizardConfig: INg2WizardConfig = {
+        "showNavigationButtons": true,
+        "navigationButtonLocation": "bottom",
+        "preventUnvisitedTabNavigation": true
+    };
+    
+    public onNext(): void {
         console.log("onNext");
     }
     
-    onPrevious(): void {
+    public onPrevious(): void {
         console.log("onPrevious");
     }
     
-    onTabChange(): void {
+    public onTabChange(): void {
         console.log("onTabChange");
     }
 }
