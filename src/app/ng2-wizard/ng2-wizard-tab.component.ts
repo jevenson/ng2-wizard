@@ -20,7 +20,6 @@ export class Ng2WizardTab implements AfterContentInit {
     
     public ngAfterContentInit(): void {
         if (this.steps && this.steps.length > 0) {
-            console.log(this.steps.length);
             this.steps.first.active = true;
         }
     }

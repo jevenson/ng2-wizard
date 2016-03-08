@@ -8,4 +8,17 @@ import { Ng2WizardStep } from './ng2-wizard/ng2-wizard-step.component';
     templateUrl: './app/app.component.html',
     directives: [Ng2Wizard, Ng2WizardTab, Ng2WizardStep]
 })
-export class AppComponent { }
+export class AppComponent {
+    
+    onNext(): void {
+        console.log("onNext");
+    }
+    
+    onPrevious(): void {
+        console.log("onPrevious");
+    }
+    
+    onTabChange(): void {
+        console.log("onTabChange");
+    }
+}
