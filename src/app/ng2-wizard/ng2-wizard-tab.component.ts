@@ -11,18 +11,17 @@ export class Ng2WizardTab implements AfterContentInit {
     public title: string;
     
     @ContentChildren(Ng2WizardStep)
-    private steps: QueryList<Ng2WizardStep>;
+    public steps: QueryList<Ng2WizardStep>;
     
     public active: boolean = false;
     public visited: boolean = false;
     
-    constructor() {
-        //this.steps.changes.subscribe(() => {
-        //    console.log(this.steps);
-        //});
-    }
+    constructor() { }
     
     public ngAfterContentInit(): void {
-        //this.steps.first.active = true;
-    }\
+        if (this.steps && this.steps.length > 0) {
+            console.log(this.steps.length);
+            this.steps.first.active = true;
+        }
+    }
 }

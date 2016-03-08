@@ -1,4 +1,5 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Input, Host } from 'angular2/core';
+import { Ng2WizardTab } from './ng2-wizard-tab.component';
 
 @Component({
     selector: 'ng2-wizard-step',

@@ -15,27 +15,29 @@ export class Ng2Wizard implements AfterContentInit {
     @ContentChildren(Ng2WizardTab)
     private tabs: QueryList<Ng2WizardTab>;
     
-    // private get steps(): Array<Ng2WizardStep> {
-    //     let steps: Array<Ng2WizardStep> = new Array<Ng2WizardStep>();
-    //     
-    //     this.tabs.forEach(tab => steps.concat(tab.steps.toArray()));
-    //     
-    //     return steps;
-    // }
+    private get steps(): Array<Ng2WizardStep> {
+        let steps: Array<Ng2WizardStep> = new Array<Ng2WizardStep>();
+        
+        this.tabs.forEach((tab) => {
+            steps = steps.concat(tab.steps.toArray());
+        });
+
+        return steps;
+    }
     
     // Allow usage of enum in template
     private NavigationDirection = NavigationDirection;
     
-    private get activeTab(): Ng2WizardTab {
-        return this.tabs.toArray().find(tab => tab.active);
+    private get activeStep(): Ng2WizardStep {
+        return this.steps.find(step => step.active);
     }
     
     private get currentStepIndex(): number {
-        return this.tabs.toArray().indexOf(this.activeTab);
+        return this.steps.indexOf(this.activeStep);
     }
     
     private get hasNextStep(): boolean {
-        return this.currentStepIndex < this.tabs.length - 1;
+        return this.currentStepIndex < this.steps.length - 1;
     }
     
     private get hasPreviousStep(): boolean {
@@ -68,23 +70,44 @@ export class Ng2Wizard implements AfterContentInit {
     
     private next(): void {
         if (this.hasNextStep) {
-            let tab: Ng2WizardTab = this.tabs.toArray()[this.currentStepIndex + 1];
+            let step: Ng2WizardStep = this.steps[this.currentStepIndex + 1];
             this.deactivateAllTabs();
-            tab.active = true;
+            this.deactivateAllSteps();
+            step.active = true;
+            this.selectTab(step);
         }
     }
     
     private previous(): void {
         if (this.hasPreviousStep) {
-            let tab: Ng2WizardTab = this.tabs.toArray()[this.currentStepIndex - 1];
+            let step: Ng2WizardStep = this.steps[this.currentStepIndex - 1];
             this.deactivateAllTabs();
-            tab.active = true;
+            this.deactivateAllSteps();
+            step.active = true;
+            this.selectTab(step);
         }
+    }
+    
+    private selectTab(newStep: Ng2WizardStep): void {
+        this.tabs.forEach((tab) => {
+            tab.steps.forEach((step) => {
+                 if (newStep === step) {
+                     tab.active = true;
+                     return;
+                 }
+            });
+        });
     }
     
     private deactivateAllTabs(): void {
         this.tabs.forEach((tab) => {
             tab.active = false;
+        });
+    }
+    
+    private deactivateAllSteps(): void {
+        this.steps.forEach((step) => {
+            step.active =  false
         });
     }
 }
