@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>ng2-wizard</h3>
+        <ng2-wizard
+            [config]="wizardConfig"
+            (onNext)="onNext()"
+            (onPrevious)="onPrevious()"
+            (onTabChange)="onTabChange()">
+            <ng2-wizard-tab title="Tab 1">
+                <h3>Tab 1</h3>
+                <ng2-wizard-step>Step 1</ng2-wizard-step>
+                <ng2-wizard-step>Step 2</ng2-wizard-step>
+            </ng2-wizard-tab>
+            <ng2-wizard-tab title="Tab 2">
+                <h3>Tab 2</h3>
+                <ng2-wizard-step>Step 1</ng2-wizard-step>
+            </ng2-wizard-tab>
+            <ng2-wizard-tab title="Tab 3">
+                <h3>Tab 3</h3>
+                <ng2-wizard-step>Step 1</ng2-wizard-step>
+                <ng2-wizard-step>Step 2</ng2-wizard-step>
+                <ng2-wizard-step>Step 3</ng2-wizard-step>
+            </ng2-wizard-tab>
+        </ng2-wizard>
+    </div>
+</div>
